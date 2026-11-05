@@ -46,6 +46,21 @@ const showNotification = (msg) => {
 const isEasterEggOpen = ref(false)
 let keyBuffer = ''
 
+const checkHashOrUrl = () => {
+  const hash = window.location.hash.toLowerCase()
+  const search = window.location.search.toLowerCase()
+  if (hash === '#2108' || hash === '#jb' || search.includes('egg=2108') || search.includes('egg=jb')) {
+    isEasterEggOpen.value = true
+  }
+}
+
+const closeEasterEgg = () => {
+  isEasterEggOpen.value = false
+  if (window.location.hash === '#2108' || window.location.hash === '#jb') {
+    history.replaceState(null, '', window.location.pathname + window.location.search)
+  }
+}
+
 const onKeyDown = (e) => {
   // Do not intercept keystrokes when typing inside form inputs/textareas
   const activeTag = document.activeElement?.tagName
@@ -70,12 +85,15 @@ onMounted(() => {
   window.addEventListener('mousemove', onMouseMove, { passive: true })
   window.addEventListener('scroll', onScroll, { passive: true })
   window.addEventListener('keydown', onKeyDown)
+  window.addEventListener('hashchange', checkHashOrUrl)
+  checkHashOrUrl()
 })
 
 onUnmounted(() => {
   window.removeEventListener('mousemove', onMouseMove)
   window.removeEventListener('scroll', onScroll)
   window.removeEventListener('keydown', onKeyDown)
+  window.removeEventListener('hashchange', checkHashOrUrl)
   if (toastTimeout) clearTimeout(toastTimeout)
 })
 </script>
@@ -141,7 +159,7 @@ onUnmounted(() => {
     <!-- Secret Easter Egg Modal -->
     <EasterEggModal 
       :is-open="isEasterEggOpen" 
-      @close="isEasterEggOpen = false" 
+      @close="closeEasterEgg" 
     />
 
     <!-- Tactile Toast Notification -->

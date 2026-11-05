@@ -76,8 +76,7 @@ onUnmounted(() => {
         class="group flex items-center gap-2.5 font-display font-semibold text-sm text-white hover:text-white hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.7)] transition-all shrink-0"
       >
         <span class="w-2 h-2 rounded-full bg-emerald-500 radar-dot"></span>
-        <span class="hidden sm:inline">Farras Fadhil Hassan</span>
-        <span class="sm:hidden">Farras</span>
+        <span class="font-mono tracking-tight">raztven</span>
       </a>
 
       <!-- Desktop Navigation Links (>= sm screens) -->

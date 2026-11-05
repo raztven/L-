@@ -28,13 +28,15 @@ const handleSecretTap = () => {
 
 <template>
   <footer class="pt-8 pb-16 border-t border-[#27272A] mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#71717A]">
-    <div class="flex items-center gap-2 select-none">
+    <div 
+      @click="handleSecretTap"
+      class="flex items-center gap-2 select-none cursor-pointer py-1.5 px-1 rounded hover:bg-white/[0.03] active:opacity-75 transition-all"
+      title="Tap 5x for a secret"
+    >
       <span 
-        @click="handleSecretTap"
-        title="Active status"
-        class="w-1.5 h-1.5 rounded-full bg-emerald-500 cursor-default active:scale-125 transition-transform"
+        class="w-1.5 h-1.5 rounded-full bg-emerald-500 active:scale-150 transition-transform"
       ></span>
-      <p>
+      <p class="hover:text-zinc-400 transition-colors">
         &copy; 2026 Farras Fadhil Hassan. Crafted with Vue 3 &amp; Tailwind CSS.
       </p>
     </div>
