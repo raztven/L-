@@ -108,32 +108,34 @@ const toggleExpand = (id) => {
         </div>
 
         <!-- Links & Toggle Accordion Row -->
-        <div class="flex items-center gap-4 text-xs sm:text-sm pt-1">
-          <a
-            v-if="project.demoUrl"
-            :href="project.demoUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group/link inline-flex items-center gap-1 text-white font-medium hover:text-white hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all py-1"
-          >
-            <span>Live Demo</span>
-            <ArrowUpRight class="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
-          </a>
+        <div class="flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm pt-1">
+          <div class="flex items-center gap-3 sm:gap-4">
+            <a
+              v-if="project.demoUrl"
+              :href="project.demoUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group/link inline-flex items-center gap-1 text-white font-medium hover:text-white hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all py-1"
+            >
+              <span>Live Demo</span>
+              <ArrowUpRight class="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+            </a>
 
-          <a
-            v-if="project.repoUrl"
-            :href="project.repoUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group/link inline-flex items-center gap-1 text-[#A1A1AA] hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all py-1"
-          >
-            <span>Repository</span>
-            <ArrowUpRight class="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
-          </a>
+            <a
+              v-if="project.repoUrl"
+              :href="project.repoUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group/link inline-flex items-center gap-1 text-[#A1A1AA] hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all py-1"
+            >
+              <span>Repository</span>
+              <ArrowUpRight class="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+            </a>
+          </div>
 
           <button
             @click="toggleExpand(project.id)"
-            class="text-xs text-[#A1A1AA] hover:text-white hover:border-white/50 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-all cursor-pointer ml-auto flex items-center gap-1 px-2.5 py-1 rounded bg-[#18181B] hover:bg-white/10 border border-[#27272A]"
+            class="text-xs text-[#A1A1AA] hover:text-white hover:border-white/50 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-all cursor-pointer flex items-center gap-1 px-2.5 py-1 rounded bg-[#18181B] hover:bg-white/10 border border-[#27272A]"
           >
             <span>{{ expandedId === project.id ? 'Close Overview' : 'Read Details' }}</span>
             <ChevronUp v-if="expandedId === project.id" class="w-3.5 h-3.5" />

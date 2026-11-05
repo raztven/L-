@@ -73,7 +73,7 @@ const stats = [
       </div>
 
       <div class="space-y-0.5">
-        <h1 class="text-xl sm:text-2xl font-display font-bold text-white tracking-tight flex items-center gap-2">
+        <h1 class="text-xl sm:text-2xl font-display font-bold text-white tracking-tight flex flex-wrap items-center gap-2">
           <span class="hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.6)] transition-all">Farras Fadhil Hassan</span>
           <span class="text-xs px-2 py-0.5 rounded-full bg-[#18181B] border border-[#27272A] text-[#A1A1AA] font-mono font-normal">
             raztven
@@ -97,7 +97,7 @@ const stats = [
     </div>
 
     <!-- Real-time Status Indicator -->
-    <div class="flex flex-wrap items-center gap-3 text-xs text-[#A1A1AA]">
+    <div class="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-[#A1A1AA]">
       <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#18181B] border border-[#27272A] text-[#D4D4D8]">
         <span class="w-2 h-2 rounded-full bg-emerald-500 radar-dot"></span>
         <span>Open for internships &amp; project collaborations</span>
@@ -111,7 +111,7 @@ const stats = [
     </div>
 
     <!-- Anti-Kotak: Clean Editorial 4 Spec Strip (No Card Boxes) -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 py-5 border-y border-[#27272A]">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 py-5 border-y border-[#27272A]">
       <div 
         v-for="item in stats" 
         :key="item.id" 
@@ -121,10 +121,10 @@ const stats = [
           <component :is="item.icon" class="w-3.5 h-3.5 opacity-80" />
           <span>{{ item.label }}</span>
         </div>
-        <div class="text-sm sm:text-base font-semibold text-white group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.7)] font-display transition-all">
+        <div class="text-sm sm:text-base font-semibold text-white group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.7)] font-display transition-all break-words">
           {{ item.value }}
         </div>
-        <div class="text-xs text-[#A1A1AA] group-hover:text-zinc-200 leading-tight transition-colors">
+        <div class="text-xs text-[#A1A1AA] group-hover:text-zinc-200 leading-tight transition-colors break-words">
           {{ item.subtext }}
         </div>
       </div>

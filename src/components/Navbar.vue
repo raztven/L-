@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Sun, Moon } from 'lucide-vue-next'
+import { Menu, X } from 'lucide-vue-next'
 
-const isDark = ref(true)
+const isMobileMenuOpen = ref(false)
 const activeSection = ref('')
 const currentTime = ref('')
 
@@ -33,18 +33,7 @@ const scrollTo = (id) => {
     el.scrollIntoView({ behavior: 'smooth' })
     activeSection.value = id
   }
-}
-
-const toggleTheme = () => {
-  isDark.value = !isDark.value
-  const html = document.documentElement
-  if (isDark.value) {
-    html.classList.add('dark')
-    html.classList.remove('light')
-  } else {
-    html.classList.remove('dark')
-    html.classList.add('light')
-  }
+  isMobileMenuOpen.value = false
 }
 
 let observer = null
@@ -78,8 +67,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <header class="sticky top-0 z-40 bg-[#121214]/85 backdrop-blur-md border-b border-[#27272A] select-none transition-colors duration-200">
-    <div class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
+  <header class="sticky top-0 z-40 bg-[#121214]/90 backdrop-blur-md border-b border-[#27272A] select-none">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <!-- Name Brand with Subtle Pulse -->
       <a 
         href="#" 
@@ -91,8 +80,8 @@ onUnmounted(() => {
         <span class="sm:hidden">Farras</span>
       </a>
 
-      <!-- Clean Navigation Links with Live Active Pill -->
-      <nav class="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+      <!-- Desktop Navigation Links (>= sm screens) -->
+      <nav class="hidden sm:flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
         <button
           v-for="link in navLinks"
           :key="link.id"
@@ -111,17 +100,44 @@ onUnmounted(() => {
         <div class="hidden lg:flex items-center gap-1.5 text-xs text-[#71717A] font-mono px-2">
           <span>{{ currentTime }}</span>
         </div>
-
-        <!-- Theme Toggle Button -->
-        <button
-          @click="toggleTheme"
-          class="p-1.5 rounded-md text-[#A1A1AA] hover:text-white hover:bg-[#18181B] transition-all duration-200 cursor-pointer ml-1"
-          :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
-        >
-          <Sun v-if="isDark" class="w-4 h-4 text-amber-400 hover:rotate-45 transition-transform duration-300" />
-          <Moon v-else class="w-4 h-4 text-slate-700 hover:-rotate-12 transition-transform duration-300" />
-        </button>
       </nav>
+
+      <!-- Mobile Hamburger Button (< sm screens) -->
+      <div class="flex sm:hidden items-center">
+        <button
+          @click="isMobileMenuOpen = !isMobileMenuOpen"
+          class="p-2 rounded-md text-[#A1A1AA] hover:text-white hover:bg-[#18181B] transition-colors cursor-pointer"
+          :aria-expanded="isMobileMenuOpen"
+          aria-label="Toggle navigation menu"
+        >
+          <X v-if="isMobileMenuOpen" class="w-5 h-5 text-white" />
+          <Menu v-else class="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Slide-Down Menu Drawer -->
+    <div 
+      v-if="isMobileMenuOpen" 
+      class="sm:hidden border-t border-[#27272A] bg-[#121214]/98 backdrop-blur-xl px-4 py-3 space-y-1 animate-in slide-in-from-top-2 duration-200 shadow-2xl"
+    >
+      <button
+        v-for="link in navLinks"
+        :key="link.id"
+        @click="scrollTo(link.id)"
+        class="w-full text-left px-3 py-2.5 rounded-lg text-sm transition-all cursor-pointer flex items-center justify-between"
+        :class="activeSection === link.id 
+          ? 'text-white font-medium bg-white/10 shadow-[0_0_12px_rgba(255,255,255,0.15)]' 
+          : 'text-[#A1A1AA] hover:text-white hover:bg-white/5'"
+      >
+        <span>{{ link.label }}</span>
+        <span v-if="activeSection === link.id" class="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#FFF]"></span>
+      </button>
+
+      <div class="pt-2 border-t border-[#27272A] text-xs text-[#71717A] font-mono px-3 py-1 flex items-center justify-between">
+        <span>Current Time:</span>
+        <span>{{ currentTime }}</span>
+      </div>
     </div>
   </header>
 </template>

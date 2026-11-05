@@ -1,15 +1,39 @@
 <script setup>
+import { ref } from 'vue'
 import { ArrowUp } from 'lucide-vue-next'
+
+const emit = defineEmits(['trigger-easter-egg'])
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// Secret tap counter on the green dot (especially great for mobile)
+const tapCount = ref(0)
+let tapTimer = null
+
+const handleSecretTap = () => {
+  tapCount.value++
+  if (tapTimer) clearTimeout(tapTimer)
+  if (tapCount.value >= 5) {
+    emit('trigger-easter-egg')
+    tapCount.value = 0
+  } else {
+    tapTimer = setTimeout(() => {
+      tapCount.value = 0
+    }, 2000)
+  }
 }
 </script>
 
 <template>
   <footer class="pt-8 pb-16 border-t border-[#27272A] mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#71717A]">
-    <div class="flex items-center gap-2">
-      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+    <div class="flex items-center gap-2 select-none">
+      <span 
+        @click="handleSecretTap"
+        title="Active status"
+        class="w-1.5 h-1.5 rounded-full bg-emerald-500 cursor-default active:scale-125 transition-transform"
+      ></span>
       <p>
         &copy; 2026 Farras Fadhil Hassan. Crafted with Vue 3 &amp; Tailwind CSS.
       </p>

@@ -70,11 +70,11 @@ const copyEmail = async () => {
 
     <!-- Direct Email Row -->
     <div class="py-3 border-y border-[#27272A] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs sm:text-sm">
-      <div class="flex items-center gap-2.5">
+      <div class="flex items-center gap-2.5 min-w-0">
         <Mail class="w-4 h-4 text-sky-400 shrink-0" />
-        <span class="text-[#D4D4D8]">
+        <span class="text-[#D4D4D8] truncate sm:overflow-visible">
           Direct email: 
-          <a :href="`mailto:${personal.contact.email}`" class="text-white font-medium hover:underline">
+          <a :href="`mailto:${personal.contact.email}`" class="text-white font-medium hover:underline break-all sm:break-normal">
             {{ personal.contact.email }}
           </a>
         </span>
@@ -82,7 +82,7 @@ const copyEmail = async () => {
 
       <button
         @click="copyEmail"
-        class="text-xs px-3 py-1.5 rounded-md bg-[#18181B] hover:bg-white/10 text-[#A1A1AA] hover:text-white border border-[#27272A] hover:border-white/50 hover:shadow-[0_0_12px_rgba(255,255,255,0.2)] transition-all cursor-pointer flex items-center gap-1.5 self-start sm:self-auto"
+        class="text-xs px-3 py-1.5 rounded-md bg-[#18181B] hover:bg-white/10 text-[#A1A1AA] hover:text-white border border-[#27272A] hover:border-white/50 hover:shadow-[0_0_12px_rgba(255,255,255,0.2)] transition-all cursor-pointer flex items-center gap-1.5 self-start sm:self-auto shrink-0"
       >
         <Copy class="w-3.5 h-3.5" />
         <span>Copy Address</span>

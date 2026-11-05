@@ -24,22 +24,6 @@
   --font-body: 'Inter', -apple-system, sans-serif;
 }
 
-html.light {
-  --bg-color: #FAFAF9;
-  --bg-surface: #F5F5F4;
-  --bg-surface-subtle: #E7E5E4;
-  --bg-surface-hover: #D6D3D1;
-
-  --border-color: #E7E5E4;
-  --border-hover: #D6D3D1;
-
-  --text-main: #1C1917;
-  --text-muted: #78716C;
-  --text-dim: #A8A29E;
-
-  --accent-color: #000000;
-}
-
 @layer base {
   html {
     scroll-behavior: smooth;

@@ -108,17 +108,17 @@ const activeInterestIndex = ref(0)
         v-if="about.interests[activeInterestIndex]"
         class="p-4 sm:p-5 rounded-lg bg-[#18181B] border border-[#27272A] space-y-2 animate-in fade-in duration-200"
       >
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2">
           <div class="flex items-center gap-2">
             <component 
               :is="iconMap[about.interests[activeInterestIndex].icon]" 
-              class="w-4 h-4 text-sky-400" 
+              class="w-4 h-4 text-sky-400 shrink-0" 
             />
             <h4 class="font-display font-semibold text-sm sm:text-base text-white">
               {{ about.interests[activeInterestIndex].title }}
             </h4>
           </div>
-          <span class="text-[11px] font-mono text-[#71717A] tracking-wider uppercase">
+          <span class="text-[11px] font-mono text-[#71717A] tracking-wider uppercase shrink-0">
             {{ about.interests[activeInterestIndex].category }}
           </span>
         </div>

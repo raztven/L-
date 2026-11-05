@@ -10,6 +10,7 @@ import CertificationsSection from './components/CertificationsSection.vue'
 import ContactSection from './components/ContactSection.vue'
 import Footer from './components/Footer.vue'
 import ParticleCanvas from './components/ParticleCanvas.vue'
+import EasterEggModal from './components/EasterEggModal.vue'
 import { Check } from 'lucide-vue-next'
 
 // Mouse spotlight tracking
@@ -41,20 +42,46 @@ const showNotification = (msg) => {
   }, 3500)
 }
 
+// Secret Easter Egg State & Global Keystroke Sequence ('2108' or 'jb')
+const isEasterEggOpen = ref(false)
+let keyBuffer = ''
+
+const onKeyDown = (e) => {
+  // Do not intercept keystrokes when typing inside form inputs/textareas
+  const activeTag = document.activeElement?.tagName
+  if (activeTag === 'INPUT' || activeTag === 'TEXTAREA' || document.activeElement?.isContentEditable) {
+    return
+  }
+
+  if (e.key && e.key.length === 1) {
+    keyBuffer += e.key.toLowerCase()
+    if (keyBuffer.length > 20) {
+      keyBuffer = keyBuffer.slice(-20)
+    }
+
+    if (keyBuffer.endsWith('2108') || keyBuffer.endsWith('jb')) {
+      isEasterEggOpen.value = true
+      keyBuffer = ''
+    }
+  }
+}
+
 onMounted(() => {
   window.addEventListener('mousemove', onMouseMove, { passive: true })
   window.addEventListener('scroll', onScroll, { passive: true })
+  window.addEventListener('keydown', onKeyDown)
 })
 
 onUnmounted(() => {
   window.removeEventListener('mousemove', onMouseMove)
   window.removeEventListener('scroll', onScroll)
+  window.removeEventListener('keydown', onKeyDown)
   if (toastTimeout) clearTimeout(toastTimeout)
 })
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#121214] text-[#F4F4F5] selection:bg-white/20 selection:text-white relative">
+  <div class="min-h-screen bg-[#121214] text-[#F4F4F5] selection:bg-white/20 selection:text-white relative overflow-x-hidden">
     <!-- Top Hairline Scroll Progress Bar -->
     <div 
       class="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-white via-zinc-200 to-white/70 z-50 transition-all duration-75 pointer-events-none shadow-[0_0_8px_rgba(255,255,255,0.7)]"
@@ -76,7 +103,7 @@ onUnmounted(() => {
     <Navbar />
 
     <!-- Main Single-Column Content Stream -->
-    <main class="max-w-3xl mx-auto px-6 relative z-10">
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 relative z-10">
       <!-- 01 Hero -->
       <Hero 
         :personal="portfolioData.personal" 
@@ -108,8 +135,14 @@ onUnmounted(() => {
       />
 
       <!-- 07 Footer -->
-      <Footer />
+      <Footer @trigger-easter-egg="isEasterEggOpen = true" />
     </main>
+
+    <!-- Secret Easter Egg Modal -->
+    <EasterEggModal 
+      :is-open="isEasterEggOpen" 
+      @close="isEasterEggOpen = false" 
+    />
 
     <!-- Tactile Toast Notification -->
     <div 
