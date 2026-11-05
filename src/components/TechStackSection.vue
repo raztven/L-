@@ -1,144 +1,131 @@
 <script setup>
 import { ref } from 'vue'
-import McIcon from './mc/McIcon.vue'
-import { playPop, playClick } from '../utils/minecraftAudio'
+import { Code2, Server, Smartphone, Cpu } from 'lucide-vue-next'
 
-defineProps({ skillsData: Object })
-
-const activeSkill = ref(null)
-
-const getCategoryIcon = (id) => {
-  const map = {
-    frontend: 'diamond',
-    backend: 'redstone_dust',
-    mobile: 'gold_ingot',
-    tools: 'iron_ingot'
+const stackGroups = [
+  {
+    id: 'frontend',
+    category: 'Frontend Development',
+    icon: Code2,
+    description: 'Modern, reactive, and high-performance web user interfaces.',
+    skills: [
+      { name: 'Vue.js 3', desc: 'Composition API, Pinia, Vue Router', primary: true },
+      { name: 'Tailwind CSS', desc: 'v3 & v4 Utility Architecture', primary: true },
+      { name: 'JavaScript', desc: 'Modern ES6+, Async/Await, DOM', primary: false },
+      { name: 'React.js', desc: 'Component Architecture & Hooks', primary: false },
+      { name: 'Bootstrap 5', desc: 'Rapid Grid Prototyping', primary: false }
+    ]
+  },
+  {
+    id: 'backend',
+    category: 'Backend & Database',
+    icon: Server,
+    description: 'Robust APIs, relational data integrity, and backend business logic.',
+    skills: [
+      { name: 'Laravel 11', desc: 'RESTful API, Eloquent ORM, MVC', primary: true },
+      { name: 'Supabase', desc: 'PostgreSQL, Realtime DB, Auth & Storage', primary: true },
+      { name: 'PHP 8+', desc: 'Object-Oriented Programming, PDO', primary: true },
+      { name: 'MySQL', desc: 'Relational Schema Design & Indexing', primary: false },
+      { name: 'Python', desc: 'Automation Scripts & Backend Tooling', primary: false }
+    ]
+  },
+  {
+    id: 'mobile',
+    category: 'Mobile Native Android',
+    icon: Smartphone,
+    description: 'Native Android mobile development utilizing modern declarative paradigms.',
+    skills: [
+      { name: 'Kotlin', desc: 'Coroutines, StateFlow, Modern Idioms', primary: true },
+      { name: 'Jetpack Compose', desc: 'Declarative UI, State Hoisting, Material 3', primary: true },
+      { name: 'Room Database', desc: 'SQLite Local Storage (Offline-first)', primary: true },
+      { name: 'Android SDK', desc: 'Lifecycle Architecture & Navigation', primary: false }
+    ]
+  },
+  {
+    id: 'tools',
+    category: 'Tools & Architecture',
+    icon: Cpu,
+    description: 'Git workflows, UML system modeling, and microcontroller sensor integration.',
+    skills: [
+      { name: 'ESP32 IoT', desc: 'PJBL Smart Fertigation Sensors & MQTT', primary: true },
+      { name: 'Clean Architecture', desc: 'Separation of Concerns & Modularity', primary: true },
+      { name: 'Git & GitHub', desc: 'Branching, Collaboration, Version Control', primary: false },
+      { name: 'UML Modeling', desc: 'Use Case, Activity, Sequence & Class Diagrams', primary: false }
+    ]
   }
-  return map[id] || 'crafting_table'
-}
-
-const handleSkillHover = (skill) => {
-  activeSkill.value = skill
-  playPop()
-}
-
-const handleSkillLeave = () => {
-  activeSkill.value = null
-}
+]
 </script>
 
 <template>
-  <section id="skills" class="pt-2 reveal">
-    <!-- Section Header (Minecraft HUD Style) -->
-    <div class="flex items-baseline justify-between mb-5 flex-wrap gap-2">
-      <div>
-        <div class="flex items-center gap-2 mb-1.5">
-          <McIcon name="crafting_table" size="22" />
-          <h2 class="font-pixel text-sm sm:text-base tracking-wider uppercase" style="color: var(--mc-gold);">
-            TECH_ARSENAL // CRAFTING_TABLE
-          </h2>
-        </div>
-        <p class="font-reading text-lg sm:text-xl" style="color: var(--mc-text-muted);">
-          Software, programming languages, and system infrastructure in the active development inventory.
+  <section id="stack" class="scroll-mt-24 py-12 border-t border-[#27272A] space-y-7">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <div class="space-y-1">
+        <h2 class="text-xl font-display font-bold text-white tracking-tight">
+          Stack &amp; Toolchain
+        </h2>
+        <p class="text-xs sm:text-sm text-[#A1A1AA]">
+          Programming languages, frameworks, and technologies I actively use in production projects.
         </p>
       </div>
 
-      <div class="flex items-center gap-1.5 font-pixel text-[10px] px-2.5 py-1 bg-black/40 border-2 border-black text-[#55FF55]">
-        <McIcon name="xp_orb" size="14" />
-        <span>LVL 26 ARSENAL</span>
+      <!-- Core Technologies Pill List -->
+      <div class="flex items-center gap-1.5 text-xs text-[#71717A] self-start sm:self-auto font-mono">
+        <span class="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"></span>
+        <span>White Dot = Primary Focus</span>
       </div>
     </div>
 
-    <!-- 4 Category Panels (Crafting Table Grid) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div
-        v-for="(category, idx) in skillsData.categories"
-        :key="category.id"
-        class="mc-panel p-4 sm:p-5 flex flex-col justify-between"
+    <!-- 4 Clean Stack Grid Columns (Anti-Kotak: Clean Hairlines) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-2">
+      <div 
+        v-for="group in stackGroups" 
+        :key="group.id"
+        class="space-y-3"
       >
-        <div>
-          <!-- Category Header -->
-          <div class="flex items-center justify-between mb-3 pb-2.5 border-b-2 border-black/30 font-pixel text-xs">
-            <div class="flex items-center gap-2">
-              <McIcon :name="getCategoryIcon(category.id)" size="18" />
-              <h3 class="uppercase font-bold tracking-wider" style="color: var(--mc-text-heading);">
-                {{ category.name }}
-              </h3>
-            </div>
-            <span class="text-[10px]" style="color: var(--mc-text-muted);">
-              [0{{ idx + 1 }}]
-            </span>
+        <div class="flex items-center gap-2.5 pb-2 border-b border-[#27272A]">
+          <div class="text-sky-400">
+            <component :is="group.icon" class="w-4 h-4" />
           </div>
+          <div>
+            <h3 class="font-display font-semibold text-sm sm:text-base text-white">
+              {{ group.category }}
+            </h3>
+            <p class="text-[11px] text-[#A1A1AA]">
+              {{ group.description }}
+            </p>
+          </div>
+        </div>
 
-          <p class="font-reading text-base leading-snug mb-3.5" style="color: var(--mc-text-muted);">
-            {{ category.description }}
-          </p>
+        <ul class="space-y-1 text-xs sm:text-sm">
+          <li 
+            v-for="skill in group.skills" 
+            :key="skill.name"
+            class="group flex items-center justify-between gap-3 py-1.5 px-2 rounded-md hover:bg-white/[0.04] transition-all cursor-default"
+          >
+            <div class="flex items-center gap-2">
+              <span 
+                v-if="skill.primary" 
+                class="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.7)] group-hover:shadow-[0_0_12px_rgba(255,255,255,1)] transition-all" 
+                title="Primary Skill"
+              ></span>
+              <span 
+                v-else 
+                class="w-1.5 h-1.5 rounded-full bg-[#3F3F46] group-hover:bg-white/80 group-hover:shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all"
+              ></span>
 
-          <!-- Skills Grid (Inventory Slots) -->
-          <div class="flex flex-wrap gap-2">
-            <div
-              v-for="(skill, sIdx) in category.skills"
-              :key="sIdx"
-              @mouseenter="handleSkillHover(skill)"
-              @mouseleave="handleSkillLeave"
-              @click="playClick"
-              :class="[
-                'mc-slot px-2.5 py-1.5 flex items-center gap-2 select-none transition-transform hover:-translate-y-0.5 cursor-pointer relative group',
-                skill.badge === 'Primary' ? 'mc-enchanted ring-1 ring-[#BD3BEB]/50' : ''
-              ]"
-            >
-              <!-- Primary Star Indicator -->
-              <span v-if="skill.badge === 'Primary'" class="text-[10px] text-[#FCDB5C] font-bold">
-                ★
-              </span>
-              <span v-else class="text-[10px] text-gray-500 font-bold">
-                •
-              </span>
-
-              <span class="font-pixel text-[10px] text-white">
+              <span 
+                :class="skill.primary ? 'text-white font-medium' : 'text-[#D4D4D8]'"
+                class="group-hover:text-white group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all"
+              >
                 {{ skill.name }}
               </span>
-
-              <span
-                v-if="skill.badge"
-                class="font-pixel text-[8px] px-1 py-0.5 bg-[#BD3BEB] text-white shadow-sm"
-              >
-                {{ skill.badge }}
-              </span>
-
-              <!-- Minecraft Item Lore Tooltip -->
-              <div
-                class="mc-tooltip hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 text-left shadow-2xl z-50 pointer-events-none"
-              >
-                <!-- Item Name -->
-                <div class="text-[#4AEDD9] font-pixel text-[11px] mb-1 font-bold">
-                  {{ skill.name }}
-                </div>
-
-                <!-- Enchantment / Tier -->
-                <div v-if="skill.badge === 'Primary'" class="text-[#D87093] font-pixel text-[9px] mb-1">
-                  Enchanted: Primary Mastery I
-                </div>
-
-                <!-- Proficiency Level -->
-                <div class="text-[#FCDB5C] font-pixel text-[9px] mb-1">
-                  Proficiency: {{ skill.level }}
-                </div>
-
-                <!-- Lore / Detail -->
-                <div class="font-reading text-sm text-[#CCCCCC] leading-tight pt-1 border-t border-[#331144]">
-                  {{ skill.detail }}
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Panel Footer -->
-        <div class="mt-4 pt-2 border-t border-black/20 flex items-center justify-between font-pixel text-[9px] text-[#888888]">
-          <span>SLOTS: {{ category.skills.length }}</span>
-          <span class="text-[#55FF55]">SYNCED</span>
-        </div>
+            <span class="text-[11px] text-[#71717A] group-hover:text-zinc-300 text-right truncate font-mono transition-colors">
+              {{ skill.desc }}
+            </span>
+          </li>
+        </ul>
       </div>
     </div>
   </section>

@@ -1,510 +1,282 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 /* ═══════════════════════════════════════════════════════════════════════════
-   MINECRAFT THEME DESIGN SYSTEM (PURE CSS & SVG PIXEL ART - NO COPYRIGHT ASSETS)
+   HUMAN CRAFT & DELIGHTFUL INTERACTIVE DESIGN SYSTEM
+   PURE CRAFT // WHITE GLOW ILLUMINATION // ETHEREAL HOVER SPARKLES
    ═══════════════════════════════════════════════════════════════════════════ */
+
 :root {
-  --font-pixel: 'Press Start 2P', monospace;
-  --font-reading: 'VT323', 'Silkscreen', monospace;
-  --font-code: 'JetBrains Mono', monospace;
+  --bg-color: #121214;
+  --bg-surface: #18181B;
+  --bg-surface-subtle: #202024;
+  --bg-surface-hover: #27272A;
 
-  /* Minecraft Palette */
-  --mc-grass: #5D9B3A;
-  --mc-grass-top: #74B34C;
-  --mc-dirt: #8B5A2B;
-  --mc-dirt-dark: #5A3816;
-  --mc-stone: #7F7F7F;
-  --mc-stone-light: #A0A0A0;
-  --mc-stone-dark: #4A4A4A;
-  --mc-deepslate: #2B2B2F;
-  --mc-bedrock: #141416;
-  --mc-diamond: #4AEDD9;
-  --mc-emerald: #50C878;
-  --mc-gold: #FCDB5C;
-  --mc-redstone: #B3261E;
-  --mc-lapis: #2A48C9;
-  --mc-amethyst: #9A5CC6;
-  --mc-wood: #B88748;
-  --mc-obsidian: #18122B;
+  --border-color: #27272A;
+  --border-hover: #3F3F46;
 
-  /* ── Light Mode: Siang Hari (Day Sky & Plains Biome) ── */
-  --mc-sky: #78A7FF;
-  --mc-sky-horizon: #B0CFFF;
-  --mc-ui-bg: #C6C6C6;
-  --mc-ui-inner: #D8D8D8;
-  --mc-ui-slot: #8B8B8B;
-  --mc-ui-slot-inner: #757575;
-  --mc-text-title: #2B2B2B;
-  --mc-text-body: #1E1E1E;
-  --mc-text-muted: #5A5A5A;
-  --mc-card-bg: #EAEAEA;
-  --mc-card-border-light: #FFFFFF;
-  --mc-card-border-dark: #555555;
-  --mc-border-edge: #000000;
-  --mc-btn-bg: #A0A0A0;
-  --mc-btn-hover: #B5B5B5;
-  --mc-header-bg: rgba(198, 198, 198, 0.95);
+  --text-main: #F4F4F5;
+  --text-muted: #A1A1AA;
+  --text-dim: #71717A;
+
+  --accent-color: #FFFFFF;
+
+  --font-display: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
 }
 
-html.dark {
-  /* ── Dark Mode: Malam Hari (Night Sky & Deepslate Biome) ── */
-  --mc-sky: #0B0E17;
-  --mc-sky-horizon: #151A29;
-  --mc-ui-bg: #2B2B2F;
-  --mc-ui-inner: #1E1E22;
-  --mc-ui-slot: #151518;
-  --mc-ui-slot-inner: #0E0E10;
-  --mc-text-title: #FFFFFF;
-  --mc-text-body: #D1D5DB;
-  --mc-text-muted: #9CA3AF;
-  --mc-card-bg: #1B1B20;
-  --mc-card-border-light: #3E3E48;
-  --mc-card-border-dark: #0F0F12;
-  --mc-border-edge: #000000;
-  --mc-btn-bg: #3E3E44;
-  --mc-btn-hover: #4E4E56;
-  --mc-header-bg: rgba(27, 27, 32, 0.95);
+html.light {
+  --bg-color: #FAFAF9;
+  --bg-surface: #F5F5F4;
+  --bg-surface-subtle: #E7E5E4;
+  --bg-surface-hover: #D6D3D1;
+
+  --border-color: #E7E5E4;
+  --border-hover: #D6D3D1;
+
+  --text-main: #1C1917;
+  --text-muted: #78716C;
+  --text-dim: #A8A29E;
+
+  --accent-color: #000000;
 }
 
 @layer base {
-  * {
-    image-rendering: pixelated;
-    border-radius: 0 !important;
-  }
-
   html {
     scroll-behavior: smooth;
+    background-color: var(--bg-color);
+    color: var(--text-main);
   }
 
   body {
-    background-color: var(--mc-sky);
-    color: var(--mc-text-body);
-    font-family: var(--font-reading);
-    font-size: 20px;
-    line-height: 1.4;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-body);
     min-height: 100vh;
     overflow-x: hidden;
-    -webkit-font-smoothing: none;
-    -moz-osx-font-smoothing: none;
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M2 2 L2 20 L7 15 L12 22 L15 20 L10 13 L17 13 Z' fill='%23FFFFFF' stroke='%23000000' stroke-width='2' stroke-linejoin='miter'/%3E%3C/svg%3E"), default;
+    line-height: 1.6;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
-  button, a, input, textarea, select {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M2 2 L2 20 L7 15 L12 22 L15 20 L10 13 L17 13 Z' fill='%23FCDB5C' stroke='%23000000' stroke-width='2' stroke-linejoin='miter'/%3E%3C/svg%3E"), pointer !important;
-  }
-
-  h1, h2, h3, h4, .font-pixel {
-    font-family: var(--font-pixel);
-    letter-spacing: -0.04em;
-  }
-
-  .font-reading {
-    font-family: var(--font-reading);
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    font-weight: 600;
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   PIXEL BACKGROUNDS: DAY CLOUDS & NIGHT STARS
-   ═══════════════════════════════════════════════════════════════════════════ */
-.mc-sky-backdrop {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-  background: linear-gradient(180deg, var(--mc-sky) 0%, var(--mc-sky-horizon) 100%);
-}
-
-/* Pixel Clouds (Light Mode) */
-html:not(.dark) .mc-pixel-cloud-layer {
-  position: absolute;
-  inset: 0;
-  background-image: 
-    radial-gradient(circle, #FFFFFF 2px, transparent 2px),
-    radial-gradient(circle, rgba(255,255,255,0.7) 4px, transparent 4px);
-  background-size: 160px 80px, 240px 120px;
-  animation: clouds-drift 90s linear infinite;
-  opacity: 0.85;
-}
-
-@keyframes clouds-drift {
-  0%   { background-position: 0 0, 0 0; }
-  100% { background-position: 1000px 0, 1500px 0; }
-}
-
-/* Pixel Stars (Dark Mode) */
-html.dark .mc-pixel-star-layer {
-  position: absolute;
-  inset: 0;
-  background-image: 
-    radial-gradient(circle, #FFFFFF 1px, transparent 1px),
-    radial-gradient(circle, #FCDB5C 1px, transparent 1px),
-    radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px);
-  background-size: 80px 80px, 140px 140px, 200px 200px;
-  background-position: 10px 10px, 40px 70px, 90px 150px;
-  animation: stars-twinkle 4s ease-in-out infinite alternate;
-}
-
-@keyframes stars-twinkle {
-  0%   { opacity: 0.7; }
-  100% { opacity: 1; }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   MINECRAFT BEVELS: BUTTONS, SLOTS & PANELS
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-/* Classic Stone Button */
-.mc-btn {
-  position: relative;
-  font-family: var(--font-pixel);
-  font-size: 11px;
-  padding: 8px 14px;
-  color: #FFFFFF;
-  text-shadow: 2px 2px 0px #1E1E1E;
-  background-color: var(--mc-btn-bg);
-  border: 3px solid #000000;
-  box-shadow: 
-    inset 3px 3px 0px 0px rgba(255,255,255,0.45),
-    inset -3px -3px 0px 0px rgba(0,0,0,0.5);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  user-select: none;
-  transition: none;
-}
-
-.mc-btn:hover {
-  background-color: var(--mc-btn-hover);
-  color: #FFFFAA;
-  box-shadow: 
-    inset 3px 3px 0px 0px rgba(255,255,255,0.65),
-    inset -3px -3px 0px 0px rgba(0,0,0,0.6);
-}
-
-.mc-btn:active, .mc-btn.active {
-  box-shadow: 
-    inset 3px 3px 0px 0px rgba(0,0,0,0.6),
-    inset -3px -3px 0px 0px rgba(255,255,255,0.2);
-  transform: translate(2px, 2px);
-}
-
-/* Primary Green / Diamond Button */
-.mc-btn-primary {
-  background-color: #3B7A24;
-  box-shadow: 
-    inset 3px 3px 0px 0px rgba(116, 179, 76, 0.7),
-    inset -3px -3px 0px 0px rgba(20, 50, 10, 0.7);
-}
-.mc-btn-primary:hover {
-  background-color: #4A9B2E;
-  box-shadow: 
-    inset 3px 3px 0px 0px rgba(140, 205, 95, 0.9),
-    inset -3px -3px 0px 0px rgba(20, 50, 10, 0.8);
-}
-
-/* Minecraft Inset Slot (Inventory Cell) */
-.mc-slot {
-  background-color: var(--mc-ui-slot);
-  border: 3px solid #000000;
-  box-shadow: 
-    inset 3px 3px 0px 0px rgba(0,0,0,0.65),
-    inset -3px -3px 0px 0px rgba(255,255,255,0.25);
-  position: relative;
-}
-
-/* Minecraft Main Window Panel (Container) */
-.mc-panel {
-  background-color: var(--mc-card-bg);
-  border: 4px solid #000000;
-  box-shadow: 
-    inset 4px 4px 0px 0px var(--mc-card-border-light),
-    inset -4px -4px 0px 0px var(--mc-card-border-dark);
-  position: relative;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   HOTBAR NAVIGATION STYLING
-   ═══════════════════════════════════════════════════════════════════════════ */
-.mc-hotbar {
-  background-color: var(--mc-ui-bg);
-  border: 4px solid #000000;
-  box-shadow: 
-    inset 3px 3px 0px 0px var(--mc-card-border-light),
-    inset -3px -3px 0px 0px var(--mc-card-border-dark);
-  display: inline-flex;
-  align-items: center;
-  padding: 3px;
-}
-
-.mc-hotbar-slot {
-  position: relative;
-  background-color: var(--mc-ui-slot);
-  border: 2px solid #000000;
-  box-shadow: 
-    inset 2px 2px 0px 0px rgba(0,0,0,0.6),
-    inset -2px -2px 0px 0px rgba(255,255,255,0.25);
-  transition: none;
-}
-
-/* Active Slot has thick white/gray frame overlay */
-.mc-hotbar-slot.active {
-  border: 3px solid #FFFFFF !important;
-  box-shadow: 
-    0px 0px 0px 2px #000000,
-    inset 2px 2px 0px 0px rgba(255,255,255,0.6),
-    inset -2px -2px 0px 0px rgba(0,0,0,0.5);
-  z-index: 10;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   ENCHANTED GLOW SHIMMER (PURPLE HOLOGRAPHIC PULSE)
-   ═══════════════════════════════════════════════════════════════════════════ */
-.mc-enchanted {
-  position: relative;
-  overflow: hidden;
-}
-
-.mc-enchanted::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(154, 92, 198, 0) 0%,
-    rgba(192, 132, 252, 0.45) 50%,
-    rgba(154, 92, 198, 0) 100%
-  );
-  animation: enchanted-glimmer 2.4s infinite linear;
-  pointer-events: none;
-  mix-blend-mode: overlay;
-}
-
-@keyframes enchanted-glimmer {
-  0%   { transform: translateX(-120%) translateY(-120%); }
-  100% { transform: translateX(120%) translateY(120%); }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   MINECRAFT ITEM TOOLTIP (DARK PURPLE WITH GRADIENT BORDER)
-   ═══════════════════════════════════════════════════════════════════════════ */
-.mc-tooltip {
-  background-color: #100010;
-  border: 2px solid #28007F;
-  box-shadow: 0 0 0 2px #14003F, inset 0 0 0 1px #5000FF;
-  padding: 8px 12px;
-  font-family: var(--font-pixel);
-  font-size: 10px;
-  color: #FFFFFF;
-  text-shadow: 2px 2px 0px #220022;
-  z-index: 50;
-  pointer-events: none;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   INPUTS & CHAT COMMANDS
-   ═══════════════════════════════════════════════════════════════════════════ */
-.mc-input {
-  font-family: var(--font-reading);
-  font-size: 22px;
-  padding: 8px 12px;
-  background-color: var(--mc-ui-slot);
-  color: #FFFFFF;
-  border: 3px solid #000000;
-  box-shadow: 
-    inset 3px 3px 0px 0px rgba(0,0,0,0.7),
-    inset -3px -3px 0px 0px rgba(255,255,255,0.2);
-  outline: none;
-}
-
-.mc-input:focus {
-  border-color: var(--mc-diamond);
-  box-shadow: 
-    0 0 0 2px #000000,
-    inset 3px 3px 0px 0px rgba(0,0,0,0.7);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   ANIMATIONS & REDUCED MOTION SUPPORT
-   ═══════════════════════════════════════════════════════════════════════════ */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Idle Bobbing Animation for Avatar */
-@keyframes mc-bob {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-6px); }
-}
-
-.mc-bobbing {
-  animation: mc-bob 2.6s ease-in-out infinite;
-}
-
-/* Item Drop Animation */
-@keyframes item-drop {
+/* Radar Pulse Animation for Real-Time Status */
+@keyframes radarPulse {
   0% {
-    opacity: 0;
-    transform: translateY(-24px) scale(0.95);
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
   }
   70% {
-    transform: translateY(4px) scale(1.02);
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
   }
   100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
   }
 }
 
-.mc-item-drop {
-  animation: item-drop 0.4s steps(6) forwards;
+.radar-dot {
+  animation: radarPulse 2.2s infinite cubic-bezier(0.4, 0, 0.6, 1);
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   ADVANCEMENTS SYSTEM (TREE & NODES)
-   ═══════════════════════════════════════════════════════════════════════════ */
-.mc-advancement-card {
-  position: relative;
-  background-color: var(--mc-card-bg);
-  border: 3px solid #000000;
-  box-shadow: 
-    inset 3px 3px 0px 0px var(--mc-card-border-light),
-    inset -3px -3px 0px 0px var(--mc-card-border-dark);
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+/* White Pulse Radar */
+@keyframes whitePulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+  }
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
 }
 
-.mc-advancement-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    inset 3px 3px 0px 0px rgba(255, 255, 255, 0.4),
-    inset -3px -3px 0px 0px rgba(0, 0, 0, 0.8),
-    0 4px 0 0 rgba(0, 0, 0, 0.4);
+.white-radar-dot {
+  animation: whitePulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
 }
 
-.mc-advancement-icon-frame {
-  width: 44px;
-  height: 44px;
-  background-color: #1A1A1A;
-  border: 3px solid #000000;
-  box-shadow: 
-    inset 2px 2px 0px 0px rgba(0,0,0,0.8),
-    inset -2px -2px 0px 0px rgba(255,255,255,0.2);
-  display: flex;
+/* Natural Link Styling with Bright White Illumination on Hover */
+.human-link {
+  color: var(--text-main);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--border-hover);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.human-link:hover {
+  color: #FFFFFF;
+  text-decoration-color: #FFFFFF;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Interactive Filter Pill with Bright White Glow on Hover */
+.filter-pill {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
-  flex-shrink: 0;
+  gap: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  user-select: none;
 }
 
-.mc-advancement-icon-frame.challenge {
-  border-color: #BD3BEB;
-  box-shadow: 
-    0 0 8px rgba(189, 59, 235, 0.6),
-    inset 2px 2px 0px 0px rgba(255, 255, 255, 0.5),
-    inset -2px -2px 0px 0px rgba(0,0,0,0.8);
+.filter-pill-inactive {
+  background-color: transparent;
+  color: var(--text-muted);
+  border: 1px solid transparent;
 }
 
-.mc-advancement-icon-frame.goal {
-  border-color: #FCDB5C;
-  box-shadow: 
-    0 0 8px rgba(252, 219, 92, 0.6),
-    inset 2px 2px 0px 0px rgba(255, 255, 255, 0.5),
-    inset -2px -2px 0px 0px rgba(0,0,0,0.8);
+.filter-pill-inactive:hover {
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.25);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   BOOK & PARCHMENT THEME (ABOUT SECTION)
-   ═══════════════════════════════════════════════════════════════════════════ */
-.mc-parchment {
-  background-color: #EFE4CA;
-  color: #382411;
-  border: 4px solid #5A3816;
-  box-shadow: 
-    inset 4px 4px 0px 0px #FDF6E2,
-    inset -4px -4px 0px 0px #C7B591,
-    0 6px 0 0 rgba(0, 0, 0, 0.35);
-  position: relative;
+.filter-pill-active {
+  background-color: #FFFFFF;
+  color: #121214;
+  border: 1px solid #FFFFFF;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), 0 0 35px rgba(255, 255, 255, 0.15);
 }
 
-html.dark .mc-parchment {
-  background-color: #241D17;
-  color: #E8DCC8;
-  border: 4px solid #4A3320;
-  box-shadow: 
-    inset 4px 4px 0px 0px #3D2B1A,
-    inset -4px -4px 0px 0px #18120D,
-    0 6px 0 0 rgba(0, 0, 0, 0.45);
+/* Clean Tag Chip with White Glow */
+.clean-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Wooden Sign Header */
-.mc-wood-sign {
-  background-color: #8B5A2B;
-  color: #FFF2C6;
-  border: 3px solid #3E240D;
-  box-shadow: 
-    inset 3px 3px 0px 0px #B88748,
-    inset -3px -3px 0px 0px #5A3816;
-  text-shadow: 2px 2px 0px #2A1706;
+.clean-tag:hover {
+  border-color: rgba(255, 255, 255, 0.65);
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.25);
+  transform: translateY(-0.5px);
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   MINECRAFT STRATA FOOTER
-   ═══════════════════════════════════════════════════════════════════════════ */
-.mc-strata-grass {
-  background-color: #5D9B3A;
-  height: 8px;
-  position: relative;
-  box-shadow: inset 0 2px 0 0 #74B34C;
+/* Primary Button with Bright White Glow & Flare */
+.clean-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background-color: #FFFFFF;
+  color: #121214;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.mc-strata-dirt {
-  background-color: #8B5A2B;
-  background-image: radial-gradient(circle, #5A3816 2px, transparent 2px);
-  background-size: 16px 16px;
-  border-top: 3px solid #4C2F15;
+.clean-btn:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 22px rgba(255, 255, 255, 0.5), 0 0 45px rgba(255, 255, 255, 0.25);
 }
 
-.mc-strata-stone {
-  background-color: #5A5A5D;
-  background-image: radial-gradient(circle, #3D3D40 2px, transparent 2px);
-  background-size: 16px 16px;
-  border-top: 3px solid #2B2B2F;
+.clean-btn:active {
+  transform: translateY(0.5px) scale(0.98);
 }
 
-.mc-strata-bedrock {
-  background-color: #17171A;
-  background-image: 
-    radial-gradient(circle, #2C2C32 2px, transparent 2px),
-    radial-gradient(circle, #0B0B0E 2px, transparent 2px);
-  background-size: 12px 12px, 18px 18px;
-  border-top: 3px solid #000000;
+/* Secondary Button with Bright White Rim & Glow */
+.clean-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  user-select: none;
 }
 
-/* Minecraft Pixel Divider */
-.mc-divider {
-  border: none;
-  height: 4px;
-  background-color: #000000;
-  box-shadow: 0 2px 0 0 rgba(255, 255, 255, 0.15);
-  margin: 3.5rem 0;
-  position: relative;
+.clean-btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.65);
+  color: #FFFFFF;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
 }
 
-.mc-divider::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 12px;
-  height: 12px;
-  background-color: var(--mc-gold);
-  border: 2px solid #000000;
+.clean-btn-secondary:active {
+  transform: translateY(0.5px) scale(0.98);
+}
+
+/* Clean Input with Bright White Focus Ring */
+.clean-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.clean-input:focus {
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15), 0 0 20px rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+}
+
+/* Bright White Hover Text Utility */
+.hover-white-bright {
+  transition: all 0.2s ease;
+}
+
+.hover-white-bright:hover {
+  color: #FFFFFF !important;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.6), 0 0 24px rgba(255, 255, 255, 0.3);
+}
+
+/* Subtle Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
 }

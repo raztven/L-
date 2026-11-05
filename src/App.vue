@@ -2,146 +2,124 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { portfolioData } from './data/portfolioData'
 import Navbar from './components/Navbar.vue'
-import HeroSection from './components/HeroSection.vue'
-import AboutSection from './components/AboutSection.vue'
+import Hero from './components/Hero.vue'
 import ProjectsSection from './components/ProjectsSection.vue'
 import TechStackSection from './components/TechStackSection.vue'
+import AboutSection from './components/AboutSection.vue'
 import CertificationsSection from './components/CertificationsSection.vue'
-import JournalSection from './components/JournalSection.vue'
 import ContactSection from './components/ContactSection.vue'
 import Footer from './components/Footer.vue'
-import KonamiEgg from './components/mc/KonamiEgg.vue'
-import McIcon from './components/mc/McIcon.vue'
+import ParticleCanvas from './components/ParticleCanvas.vue'
+import { Check } from 'lucide-vue-next'
 
-const isDark = ref(true)
-
-// Realtime Clock
-const clock = ref('')
-let clockTimer = null
-
-const updateClock = () => {
-  const now = new Date()
-  const h = String(now.getHours()).padStart(2, '0')
-  const m = String(now.getMinutes()).padStart(2, '0')
-  const s = String(now.getSeconds()).padStart(2, '0')
-  clock.value = `${h}:${m}:${s} WIB`
+// Mouse spotlight tracking
+const mousePos = ref({ x: -1000, y: -1000 })
+const onMouseMove = (e) => {
+  mousePos.value = { x: e.clientX, y: e.clientY }
 }
 
-const applyTheme = (dark) => {
-  if (dark) {
-    document.documentElement.classList.add('dark')
-    document.documentElement.classList.remove('light')
-  } else {
-    document.documentElement.classList.remove('dark')
-    document.documentElement.classList.add('light')
+// Scroll progress percentage
+const scrollProgress = ref(0)
+const onScroll = () => {
+  const total = document.documentElement.scrollHeight - window.innerHeight
+  if (total > 0) {
+    scrollProgress.value = (window.scrollY / total) * 100
   }
 }
 
-const toggleTheme = () => {
-  isDark.value = !isDark.value
-  applyTheme(isDark.value)
-  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+// Global Toast Notification
+const toastMessage = ref('')
+const toastVisible = ref(false)
+let toastTimeout = null
+
+const showNotification = (msg) => {
+  if (toastTimeout) clearTimeout(toastTimeout)
+  toastMessage.value = msg
+  toastVisible.value = true
+  toastTimeout = setTimeout(() => {
+    toastVisible.value = false
+  }, 3500)
 }
 
 onMounted(() => {
-  const saved = localStorage.getItem('theme')
-  if (saved) {
-    isDark.value = saved === 'dark'
-  } else {
-    isDark.value = true
-  }
-  applyTheme(isDark.value)
-
-  updateClock()
-  clockTimer = setInterval(updateClock, 1000)
-
-  // Intersection Observer for section reveal
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible')
-          observer.unobserve(entry.target)
-        }
-      })
-    },
-    { threshold: 0.05 }
-  )
-  
-  setTimeout(() => {
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
-  }, 100)
+  window.addEventListener('mousemove', onMouseMove, { passive: true })
+  window.addEventListener('scroll', onScroll, { passive: true })
 })
 
 onUnmounted(() => {
-  if (clockTimer) clearInterval(clockTimer)
+  window.removeEventListener('mousemove', onMouseMove)
+  window.removeEventListener('scroll', onScroll)
+  if (toastTimeout) clearTimeout(toastTimeout)
 })
 </script>
 
 <template>
-  <div class="min-h-screen relative overflow-x-hidden">
-    <!-- Parallax Pixel Background Layers (Day Clouds / Night Stars) -->
-    <div class="mc-sky-backdrop">
-      <div class="mc-pixel-cloud-layer"></div>
-      <div class="mc-pixel-star-layer"></div>
-    </div>
-
-    <!-- Konami Code Easter Egg (Blocks Rain & Achievement) -->
-    <KonamiEgg />
-
-    <!-- Top Minecraft Debug / F3 Status Strip -->
+  <div class="min-h-screen bg-[#121214] text-[#F4F4F5] selection:bg-white/20 selection:text-white relative">
+    <!-- Top Hairline Scroll Progress Bar -->
     <div 
-      class="relative z-20 border-b-2 border-black/40 font-pixel text-[10px] select-none" 
-      style="background-color: var(--mc-header-bg);"
-    >
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 flex items-center justify-between h-7 text-gray-300">
-        <div class="flex items-center gap-2 sm:gap-3">
-          <span class="inline-flex items-center gap-1.5 text-[#55FF55] font-bold">
-            <span class="w-2 h-2 bg-[#55FF55] border border-black animate-pulse"></span>
-            WORLD: OVERWORLD
-          </span>
-          <span class="text-gray-500">//</span>
-          <span class="hidden sm:inline text-[#FCDB5C]">SEED: 2026.TRPL</span>
-          <span class="hidden md:inline text-gray-400">XYZ: -5.397 / 64.0 / 105.266</span>
-        </div>
+      class="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-white via-zinc-200 to-white/70 z-50 transition-all duration-75 pointer-events-none shadow-[0_0_8px_rgba(255,255,255,0.7)]"
+      :style="{ width: `${scrollProgress}%` }"
+    ></div>
 
-        <div class="flex items-center gap-3">
-          <span class="hidden sm:inline text-gray-400">FPS: 60 (STABLE)</span>
-          <span class="text-white font-bold tabular-nums">{{ clock }}</span>
-        </div>
-      </div>
-    </div>
+    <!-- Interactive Glowing White Particle Canvas -->
+    <ParticleCanvas />
 
-    <!-- Navigation Bar (Hotbar) -->
-    <Navbar
-      :is-dark="isDark"
-      @toggle-theme="toggleTheme"
-    />
+    <!-- Pure White Subtle Ambient Mouse Spotlight -->
+    <div 
+      class="pointer-events-none fixed inset-0 z-10 transition-opacity duration-500 opacity-60 hidden md:block"
+      :style="{
+        background: `radial-gradient(650px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.055), transparent 65%)`
+      }"
+    ></div>
 
-    <!-- Main Content Container -->
-    <main class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 pb-20 space-y-12 sm:space-y-16">
-      <HeroSection :personal="portfolioData.personal" />
+    <!-- Minimalist Sticky Navbar -->
+    <Navbar />
 
-      <hr class="mc-divider" />
-      <ProjectsSection :projects="portfolioData.projects" />
+    <!-- Main Single-Column Content Stream -->
+    <main class="max-w-3xl mx-auto px-6 relative z-10">
+      <!-- 01 Hero -->
+      <Hero 
+        :personal="portfolioData.personal" 
+        @notify="showNotification"
+      />
 
-      <hr class="mc-divider" />
-      <TechStackSection :skills-data="portfolioData.skills" />
+      <!-- 02 Projects with Interactive Filter -->
+      <ProjectsSection 
+        :projects="portfolioData.projects" 
+      />
 
-      <hr class="mc-divider" />
-      <AboutSection :about="portfolioData.about" :personal="portfolioData.personal" />
+      <!-- 03 Tech Stack -->
+      <TechStackSection />
 
-      <hr class="mc-divider" />
-      <CertificationsSection :certifications="portfolioData.certifications" />
+      <!-- 04 About & Interactive Passions -->
+      <AboutSection 
+        :about="portfolioData.about" 
+      />
 
-      <hr class="mc-divider" />
-      <JournalSection :journals="portfolioData.journals" />
+      <!-- 05 Certifications -->
+      <CertificationsSection 
+        :certifications="portfolioData.certifications" 
+      />
 
-      <hr class="mc-divider" />
-      <ContactSection :personal="portfolioData.personal" />
+      <!-- 06 Contact Form & Direct Links -->
+      <ContactSection 
+        :personal="portfolioData.personal" 
+        @notify="showNotification"
+      />
+
+      <!-- 07 Footer -->
+      <Footer />
     </main>
 
-    <!-- Strata Layer Footer -->
-    <Footer :personal="portfolioData.personal" />
+    <!-- Tactile Toast Notification -->
+    <div 
+      v-if="toastVisible"
+      class="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 px-4 py-3 rounded-lg bg-[#18181B] border border-white/30 text-white text-xs sm:text-sm shadow-[0_0_25px_rgba(255,255,255,0.15)] flex items-center gap-2.5 animate-in slide-in-from-bottom-3 duration-200 select-none"
+    >
+      <div class="w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+        <Check class="w-3.5 h-3.5" />
+      </div>
+      <span>{{ toastMessage }}</span>
+    </div>
   </div>
 </template>

@@ -1,138 +1,71 @@
 <script setup>
-import { ref } from 'vue'
-import McIcon from './mc/McIcon.vue'
-import { playAchievementChime, playPop } from '../utils/minecraftAudio'
+import { CheckCircle2, ShieldCheck } from 'lucide-vue-next'
 
-const props = defineProps({ certifications: Array })
-
-const activeCert = ref(null)
-
-const getAdvancementTier = (certId) => {
-  if (certId === 'bnsp-rpl') return 'challenge'
-  return 'goal'
-}
-
-const getAdvancementIcon = (certId) => {
-  if (certId === 'bnsp-rpl') return 'emerald'
-  return 'sword'
-}
-
-const handleCertClick = (cert) => {
-  activeCert.value = cert.id
-  playAchievementChime()
-}
+const props = defineProps({
+  certifications: {
+    type: Array,
+    required: true
+  }
+})
 </script>
 
 <template>
-  <section id="certifications" class="pt-2 reveal">
-    <!-- Header -->
-    <div class="flex items-baseline justify-between mb-5 flex-wrap gap-2">
-      <div>
-        <div class="flex items-center gap-2 mb-1.5">
-          <McIcon name="trophy" size="22" />
-          <h2 class="font-pixel text-sm sm:text-base tracking-wider uppercase" style="color: var(--mc-gold);">
-            CERTS // ADVANCEMENTS TREE
-          </h2>
-        </div>
-        <p class="font-reading text-lg sm:text-xl" style="color: var(--mc-text-muted);">
-          National BNSP competency certifications, production system profiling, and debugging mastery.
-        </p>
-      </div>
-
-      <div class="flex items-center gap-1.5 font-pixel text-[10px] px-2.5 py-1 bg-black/40 border-2 border-black text-[#FCDB5C]">
-        <McIcon name="emerald" size="14" />
-        <span>{{ certifications.length }} / {{ certifications.length }} UNLOCKED</span>
-      </div>
+  <section id="sertifikasi" class="scroll-mt-24 py-12 border-t border-[#27272A] space-y-7">
+    <div class="space-y-1">
+      <h2 class="text-xl font-display font-bold text-white tracking-tight flex items-center gap-2">
+        <span>Certifications &amp; Achievements</span>
+        <ShieldCheck class="w-5 h-5 text-emerald-400" />
+      </h2>
+      <p class="text-xs sm:text-sm text-[#A1A1AA]">
+        Verified professional competency standards, technical deep-dives, and engineering credentials.
+      </p>
     </div>
 
-    <!-- Advancements Display Window (Minecraft GUI Style) -->
-    <div class="mc-panel p-4 sm:p-6 relative overflow-hidden">
-      <!-- Window Title Tab -->
-      <div class="flex items-center justify-between pb-3 mb-5 border-b-2 border-black/30 font-pixel text-xs">
-        <div class="flex items-center gap-2">
-          <span class="text-[#FCDB5C]">★</span>
-          <span class="uppercase tracking-wider font-bold" style="color: var(--mc-text-heading);">
-            ADVANCEMENT TREE: SOFTWARE_ENGINEERING
-          </span>
+    <!-- Credentials (Anti-Kotak: Clean Hairline Rows) -->
+    <div class="space-y-0 divide-y divide-[#27272A]">
+      <div
+        v-for="cert in certifications"
+        :key="cert.id"
+        class="py-5 first:pt-0 flex flex-col sm:flex-row sm:items-start justify-between gap-4 group"
+      >
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <h3 class="font-display font-semibold text-white text-sm sm:text-base group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.7)] transition-all">
+              {{ cert.title }}
+            </h3>
+            <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-medium group-hover:border-emerald-400/50 transition-colors">
+              {{ cert.badge }}
+            </span>
+          </div>
+
+          <p class="text-xs text-[#A1A1AA]">
+            {{ cert.issuer }}
+          </p>
+
+          <p class="text-xs text-[#71717A] leading-relaxed max-w-xl">
+            {{ cert.description }}
+          </p>
+
+          <!-- Skills Chips for Certifications -->
+          <div v-if="cert.skills?.length" class="flex flex-wrap gap-1.5 pt-1">
+            <span
+              v-for="skill in cert.skills"
+              :key="skill"
+              class="clean-tag"
+            >
+              {{ skill }}
+            </span>
+          </div>
         </div>
-        <span class="text-[10px] text-[#55FF55] hidden sm:inline">
-          100% COMPLETE
-        </span>
-      </div>
 
-      <!-- Tree Nodes Container -->
-      <div class="space-y-4 relative">
-        <!-- Connecting Tree Branch Guide (Visual Minecraft Stem) -->
-        <div class="hidden sm:block absolute left-[29px] top-6 bottom-6 w-1 bg-black/40 border-r border-white/20 z-0"></div>
-
-        <div
-          v-for="cert in certifications"
-          :key="cert.id"
-          @mouseenter="playPop"
-          @click="handleCertClick(cert)"
-          :class="[
-            'mc-advancement-card p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start gap-4 relative z-10 cursor-pointer',
-            activeCert === cert.id ? 'ring-2 ring-[#FCDB5C]' : ''
-          ]"
-        >
-          <!-- Advancement Icon Frame (Minecraft Challenge / Goal / Task) -->
-          <div
-            :class="[
-              'mc-advancement-icon-frame',
-              getAdvancementTier(cert.id)
-            ]"
-          >
-            <McIcon :name="getAdvancementIcon(cert.id)" size="24" />
-          </div>
-
-          <!-- Advancement Content -->
-          <div class="flex-1 min-w-0">
-            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-1">
-              <div class="flex items-center gap-2 flex-wrap">
-                <h3 class="font-pixel text-xs sm:text-sm font-bold tracking-tight" style="color: var(--mc-text-heading);">
-                  {{ cert.title }}
-                </h3>
-                <span
-                  v-if="cert.badge"
-                  :class="[
-                    'font-pixel text-[8px] px-1.5 py-0.5 border border-black',
-                    getAdvancementTier(cert.id) === 'challenge' ? 'bg-[#BD3BEB] text-white' : 'bg-[#B88748] text-white'
-                  ]"
-                >
-                  {{ cert.badge }}
-                </span>
-              </div>
-
-              <span class="font-pixel text-[10px] text-[#FCDB5C] shrink-0">
-                {{ cert.date }}
-              </span>
-            </div>
-
-            <!-- Issuer & Status -->
-            <div class="flex flex-wrap items-center gap-2 font-pixel text-[10px] mb-2 text-gray-400">
-              <span class="text-white">{{ cert.issuer }}</span>
-              <span>&bull;</span>
-              <span class="text-[#55FF55] font-bold">
-                {{ cert.status }}
-              </span>
-            </div>
-
-            <!-- Description -->
-            <p class="font-reading text-base sm:text-lg leading-snug mb-3" style="color: var(--mc-text-muted);">
-              {{ cert.description }}
-            </p>
-
-            <!-- Skills List -->
-            <div v-if="cert.skills?.length" class="flex flex-wrap gap-1.5">
-              <span
-                v-for="(sk, sIdx) in cert.skills"
-                :key="sIdx"
-                class="font-pixel text-[9px] px-2 py-0.5 bg-black/50 text-[#4AEDD9] border border-black/60"
-              >
-                + {{ sk }}
-              </span>
-            </div>
-          </div>
+        <div class="flex sm:flex-col items-center sm:items-end justify-between gap-1 shrink-0 text-xs">
+          <span class="text-emerald-400 font-medium flex items-center gap-1">
+            <CheckCircle2 class="w-3.5 h-3.5" />
+            <span>Verified</span>
+          </span>
+          <span class="text-[#71717A] font-mono text-[11px]">
+            {{ cert.date }}
+          </span>
         </div>
       </div>
     </div>
